@@ -1,0 +1,24 @@
+[package]
+name = "rust_hawktracer_sys"
+version = "0.1.0"
+authors = ["Alexandru <alex.ene0x11@gmail.com>"]
+edition = "2018"
+build = "build.rs"
+links = "hawktracer"
+description = "sys crate for the rust_hawktracer library"
+keywords = ["profiling"]
+categories = ["development-tools::profiling"]
+repository = "https://github.com/AlexEne/rust_hawktracer_sys"
+readme = "README.md"
+license = "MIT/Apache-2.0"
+
+[build-dependencies]
+cmake = "0.1"
+
+[build-dependencies.bindgen]
+version = "0.37.0"
+optional = true
+
+[features]
+profiling_enabled = []
+generate_bindings=["bindgen"]
