@@ -54,5 +54,5 @@ jobs:
       run: git submodule update --init
     - name: Build
       run: cargo build --verbose ${{ matrix.features }}
-    - name: Run tests
-      run: cargo test --verbose
+#     - name: Run tests
+#       run: cargo test --verbose
