@@ -8,13 +8,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04]
+        features: ["", features=generate_bindings]
     
     steps:
     - uses: actions/checkout@v1
     - name: Checkout
       run: git submodule update --init
     - name: Build
-      run: cargo build --verbose
+      run: cargo build --verbose  ${{ matrix.features }}
     - name: Run tests
       run: cargo test --verbose
   
