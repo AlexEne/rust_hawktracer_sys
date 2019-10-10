@@ -17,7 +17,6 @@ pub enum HawktracerListenerType {
     },
 }
 
-#[cfg(feature = "profiling_enabled")]
 impl HawktracerInstance {
     pub fn new() -> HawktracerInstance {
         use std::os::raw::c_char;
@@ -49,20 +48,10 @@ impl HawktracerInstance {
     }
 }
 
-#[cfg(feature = "profiling_enabled")]
 impl Drop for HawktracerInstance {
     fn drop(&mut self) {
         unsafe {
             ht_deinit();
         }
     }
-}
-
-#[cfg(not(feature = "profiling_enabled"))]
-impl HawktracerInstance {
-    pub fn new() -> HawktracerInstance {
-        HawktracerInstance {}
-    }
-
-    pub fn create_listener(&self, _listener_type: HawktracerListenerType) {}
 }

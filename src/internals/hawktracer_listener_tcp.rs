@@ -2,15 +2,12 @@ use super::hawktracer_listener::*;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
-#[cfg(feature = "profiling_enabled")]
 impl<'a> HawktracerListener<'a> for HawktracerListenerTCP {}
 
-#[cfg(feature = "profiling_enabled")]
 pub struct HawktracerListenerTCP {
     listener: *mut HT_TCPListener,
 }
 
-#[cfg(feature = "profiling_enabled")]
 impl HawktracerListenerTCP {
     pub fn new(port: u32, buffer_size: usize) -> HawktracerListenerTCP {
         let listener = unsafe {
@@ -33,7 +30,6 @@ impl HawktracerListenerTCP {
     }
 }
 
-#[cfg(feature = "profiling_enabled")]
 impl Drop for HawktracerListenerTCP {
     fn drop(&mut self) {
         unsafe {

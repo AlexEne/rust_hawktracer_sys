@@ -3,15 +3,12 @@ use super::hawktracer_listener::*;
 use std::path::PathBuf;
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
-#[cfg(feature = "profiling_enabled")]
 pub struct HawktracerListenerFile {
     listener: *mut _HT_FileDumpListener,
 }
 
-#[cfg(feature = "profiling_enabled")]
 impl<'a> HawktracerListener<'a> for HawktracerListenerFile {}
 
-#[cfg(feature = "profiling_enabled")]
 impl HawktracerListenerFile {
     pub fn new(file_path: PathBuf, buffer_size: usize) -> HawktracerListenerFile {
         let string_path = file_path.into_os_string().into_string().unwrap();
@@ -36,7 +33,6 @@ impl HawktracerListenerFile {
     }
 }
 
-#[cfg(feature = "profiling_enabled")]
 impl Drop for HawktracerListenerFile {
     fn drop(&mut self) {
         unsafe {
