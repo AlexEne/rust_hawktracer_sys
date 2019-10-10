@@ -4,7 +4,6 @@ extern crate cmake;
 
 use std::env;
 use std::path::{PathBuf};
-use std::fs;
 
 //In order to build 64 bit hawktracer:
 // mkdir build
@@ -92,6 +91,7 @@ fn build_project() {
 
 #[cfg(not(feature = "generate_bindings"))]
 fn copy_pregenerated_bindings() {
+    use std::fs;
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
     let crate_path = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
     fs::copy(crate_path.join("pregenerated_bindings.rs"), out_path.join("bindings.rs"))
