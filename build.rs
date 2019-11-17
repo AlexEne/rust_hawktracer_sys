@@ -3,7 +3,7 @@ extern crate bindgen;
 extern crate cmake;
 
 use std::env;
-use std::path::{PathBuf};
+use std::path::PathBuf;
 
 //In order to build 64 bit hawktracer:
 // mkdir build
@@ -13,11 +13,12 @@ use std::path::{PathBuf};
 fn main() {
     build_project();
     let mut extra_include_path = PathBuf::from(env::var("OUT_DIR").unwrap());
-        extra_include_path.push("build");
-        extra_include_path.push("lib");
-        extra_include_path.push("include");
+    extra_include_path.push("build");
+    extra_include_path.push("lib");
+    extra_include_path.push("include");
 
-    #[cfg(feature = "generate_bindings")] {
+    #[cfg(feature = "generate_bindings")]
+    {
         let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
         let bindings = bindgen::Builder::default()
             .header("hawktracer/lib/include/hawktracer.h")
@@ -34,10 +35,10 @@ fn main() {
             .expect("Couldn't write bindings!");
     }
 
-    #[cfg(not(feature = "generate_bindings"))] {
+    #[cfg(not(feature = "generate_bindings"))]
+    {
         copy_pregenerated_bindings();
     }
-
 
     let mut build_output_path = PathBuf::from(env::var("OUT_DIR").unwrap());
     build_output_path.push("build");
@@ -46,12 +47,14 @@ fn main() {
     second_build_output_path.push("RelWithDebInfo");
     let target = env::var("TARGET").unwrap();
 
-    if target.contains("pc-windows") {    
-        #[cfg(debug_assertions)] { 
+    if target.contains("pc-windows") {
+        #[cfg(debug_assertions)]
+        {
             build_output_path.push("Debug");
         }
 
-        #[cfg(not(debug_assertions))] {
+        #[cfg(not(debug_assertions))]
+        {
             use std::path::Path;
             build_output_path.push("Release");
             if !Path::new(&build_output_path).exists() {
@@ -64,23 +67,27 @@ fn main() {
     } else if target.contains("linux") {
         println!("cargo:rustc-link-lib=dylib=stdc++");
     } else if target.contains("apple") {
-        println!("cargo:rustc-link-lib=dylib=c++"); 
+        println!("cargo:rustc-link-lib=dylib=c++");
     }
 
-    println!("cargo:rustc-link-search=all={}", build_output_path.display());
+    println!(
+        "cargo:rustc-link-search=all={}",
+        build_output_path.display()
+    );
     println!("cargo:rustc-link-lib=static=hawktracer");
 }
 
 fn build_project() {
     let configuration_type = {
-        #[cfg(debug_assertions)] { 
+        #[cfg(debug_assertions)]
+        {
             "Debug"
         }
-        #[cfg(not(debug_assertions))] { 
+        #[cfg(not(debug_assertions))]
+        {
             "Release"
         }
     };
-    
     cmake::Config::new("hawktracer")
         .define("CMAKE_BUILD_TYPE", configuration_type)
         .define("BUILD_STATIC_LIB", "ON")
@@ -88,12 +95,14 @@ fn build_project() {
         .build();
 }
 
-
 #[cfg(not(feature = "generate_bindings"))]
 fn copy_pregenerated_bindings() {
     use std::fs;
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
     let crate_path = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
-    fs::copy(crate_path.join("pregenerated_bindings.rs"), out_path.join("bindings.rs"))
-        .expect("Couldn't find pregenerated bindings!");
+    fs::copy(
+        crate_path.join("pregenerated_bindings.rs"),
+        out_path.join("bindings.rs"),
+    )
+    .expect("Couldn't find pregenerated bindings!");
 }
