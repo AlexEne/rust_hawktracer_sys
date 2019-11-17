@@ -48,12 +48,20 @@ fn main() {
     let target = env::var("TARGET").unwrap();
 
     if target.contains("pc-windows") {
-        use std::path::Path;
-        build_output_path.push("Release");
-        if !Path::new(&build_output_path).exists() {
-            //If debug = true is specified, then this generates RelWithDebInfo.
-            if Path::new(&second_build_output_path).exists() {
-                build_output_path = second_build_output_path;
+        #[cfg(debug_assertions)]
+        {
+            build_output_path.push("Debug");
+        }
+
+        #[cfg(not(debug_assertions))]
+        {
+            use std::path::Path;
+            build_output_path.push("Release");
+            if !Path::new(&build_output_path).exists() {
+                //If debug = true is specified, then this generates RelWithDebInfo.
+                if Path::new(&second_build_output_path).exists() {
+                    build_output_path = second_build_output_path;
+                }
             }
         }
     } else if target.contains("linux") {
@@ -70,8 +78,18 @@ fn main() {
 }
 
 fn build_project() {
+    let configuration_type = {
+        #[cfg(debug_assertions)]
+        {
+            "Debug"
+        }
+        #[cfg(not(debug_assertions))]
+        {
+            "Release"
+        }
+    };
     cmake::Config::new("hawktracer")
-        .define("CMAKE_BUILD_TYPE", "Release")
+        .define("CMAKE_BUILD_TYPE", configuration_type)
         .define("BUILD_STATIC_LIB", "ON")
         .build_target("hawktracer")
         .build();
