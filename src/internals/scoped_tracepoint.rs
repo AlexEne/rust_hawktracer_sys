@@ -5,7 +5,7 @@ pub struct ScopedTracepoint;
 impl ScopedTracepoint {
     pub fn start_trace(name: *mut i8) {
         unsafe {
-            ht_feature_callstack_start_string(ht_global_timeline_get(), name);
+            ht_feature_callstack_start_string(ht_global_timeline_get(), name as _);
         }
     }
 }
