@@ -12,8 +12,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: install_package
-      run: sudo apt-get install hawktracer
     - name: Checkout
       run: git submodule update --init
     - name: Build
