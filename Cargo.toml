@@ -14,10 +14,16 @@ license = "MIT/Apache-2.0"
 
 [build-dependencies]
 cmake = "0.1"
+itertools = "0.8"
 
 [build-dependencies.bindgen]
 version = "0.37.0"
 optional = true
 
+[build-dependencies.pkg-config]
+optional = true
+version = "0.3"
+
 [features]
 generate_bindings=["bindgen"]
+non-cargo = []
