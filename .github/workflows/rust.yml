@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04]
-        features: ["", --features=generate_bindings, --features="generate_bindings pkg-config", --features=pkg-config]
+        features: ["", --features=generate_bindings]
     
     steps:
     - uses: actions/checkout@v1
@@ -23,7 +23,7 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        features: ["", --features=generate_bindings, --features="generate_bindings pkg-config", --features=pkg-config]
+        features: ["", --features=generate_bindings]
     
     steps:
     - uses: actions/checkout@v1
