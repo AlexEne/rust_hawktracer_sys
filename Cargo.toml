@@ -1,6 +1,6 @@
 [package]
 name = "rust_hawktracer_sys"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Alexandru <alex.ene0x11@gmail.com>"]
 edition = "2018"
 build = "build.rs"
@@ -26,4 +26,5 @@ version = "0.3"
 
 [features]
 generate_bindings=["bindgen"]
+pkg_config=["pkg-config"]
 non-cargo = []
