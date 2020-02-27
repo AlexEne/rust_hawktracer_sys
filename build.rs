@@ -101,6 +101,7 @@ fn generate_bindings(main_header_path: &str, header_paths: Vec<PathBuf>) {
                 .map(|path| format!("-I{}", path.display())),
         )
         .blacklist_type("max_align_t")
+        .size_t_is_usize(true)
         .generate()
         .expect("Unable to generate bindings");
     println!("Manifest dir: {:?}", manifest_dir);
