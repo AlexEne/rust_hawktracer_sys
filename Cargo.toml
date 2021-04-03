@@ -17,7 +17,7 @@ cmake = "0.1"
 itertools = "0.8"
 
 [build-dependencies.bindgen]
-version = "0.53.1"
+version = "0.56"
 optional = true
 
 [build-dependencies.pkg-config]
